@@ -1,0 +1,72 @@
+database: # 数据库配置
+  host: localhost
+  port: 3306
+  user: minecraft
+  password: password
+  database: minecraft
+  table: emotionsimulator
+emotion: # 情绪值基本配置
+  default: 5000 # 默认一段人生开启时所拥有情绪值
+  min: 0 # 最小情绪值, 低于这个会抑郁致死
+  max: 10000 # 最大情绪值, 高于这个会狂躁致死
+  emo: 3000 # 低于这个会抑郁
+  crazy: 7000 # 高于这个会狂躁
+  emoAdd: 0.75 # 抑郁时提升情绪值的倍率
+  emoTake: 1.25 # 抑郁时降低情绪值的倍率
+  crazyAdd: 1.25 # 狂躁时提升情绪值的倍率
+  crazyTake: 0.75 # 狂躁时降低情绪值的倍率
+ore: # 矿物
+  iron: 25 # 铁矿(深层)
+  coal: 10 # 煤矿(深层)
+  gold: 50 # 金矿(深层)
+  redstone: 15 # 红石矿(深层)
+  lapis: 35 # 青金石矿(深层)
+  diamond: 150 # 钻石矿(深层)
+  nether_gold: 200 # 下届金矿
+  emerald: 300 # 绿宝石矿(深层)
+seeds: # 农田收获
+  wheat: 1 # 小麦 Ageable
+  potatoes: 1 # 土豆 Ageable
+  carrots: 1 # 胡萝卜 Ageable
+  beetroots: 1 # 甜菜 Ageable
+  pumpkin: 2 # 南瓜
+  melon: 5 # 西瓜
+  cocoa: 5 # 可可豆 Ageable
+animal:
+  egg: 5 # FIXME:暂未实装
+  mill: 10 # 牛奶
+  sheep: 10 # 羊毛
+  leather: 15~10~2 # 皮革
+  meat: 5 # 肉类
+  fish: # 钓鱼(FIXME:暂未实装)
+    get: 5 # 每钓一条鱼
+    treasure:
+      low: 10 # 垃圾
+      good: 50 # 牛逼的东西
+plant: # 植物采集
+  sweet_berry_bush: 5 # 浆果 Ageable
+  sugar_cane: 5 # 甘蔗 Ageable
+  cactus: 5 # 仙人掌 Ageable
+  nether_wart: 15 # 地狱疣 Ageable
+adventure: # 冒险采集
+  materials: # 可炼药材料
+    blaze_rod: 25 # 烈焰棒, 烈焰人
+    gunpowder: 25 # 火药, 苦力怕, 恶魂, 女巫
+    spider_eye: 25 # 蜘蛛眼, 蜘蛛, 洞穴蜘蛛, 女巫
+    gold_nugget: 25 # 金粒, 僵尸猪人(?)(FIXME:暂未实装)
+    bone: 25 # 骨头, 骷髅, 骷髅马, 凋零骷髅
+heal: # 长时间处于满血饱腹状态
+  per-tick-add: 0.01 # 每游戏刻所加情绪值
+  second: 60 # 多长时间后(FIXME:暂未实装)
+kill: # 杀戮
+  player: -500 # 玩家
+  creature: # 生物
+    easy: -100 # 容易的生物
+    easy-list: [] # 容易的生物列表
+    normal: -50 # 普通的生物
+    normal-list: [] # 普通的生物列表
+    hard: -30 # 复杂的生物
+    hard-list: [] # 复杂的生物列表
+un-heal: # 长时间处于非满血或饱腹状态
+  per-tick-add: -0.005 # 每游戏刻所加情绪值
+  second: 60 # 多长时间后(FIXME:暂未实装)
