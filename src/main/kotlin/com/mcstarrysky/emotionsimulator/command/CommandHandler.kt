@@ -18,6 +18,7 @@
 package com.mcstarrysky.emotionsimulator.command
 
 import com.mcstarrysky.emotionsimulator.command.sub.CommandDev
+import com.mcstarrysky.emotionsimulator.command.sub.CommandReload
 import com.mcstarrysky.emotionsimulator.prettyInfo
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandBody
@@ -51,6 +52,9 @@ object CommandHandler {
 
     @CommandBody
     val dev = CommandDev.command
+
+    @CommandBody
+    val reload = CommandReload.command
 
     private fun CommandComponent.createTabooHelper() {
         execute<ProxyCommandSender> { sender, context, _ ->

@@ -97,6 +97,8 @@ kill: # 杀戮
       - AXOLOTL # 美西螈
       - STRIDER # 炽足兽
       - BEE # 蜜蜂
+      - LLAMA # 羊驼
+      - TRADER_LLAMA # 行商羊驼
     normal: -50~10~1 # 普通的生物
     normal-list: # 普通的生物列表
       - BAT # 蝙蝠
