@@ -16,11 +16,14 @@
  */
 package com.mcstarrysky.emotionsimulator.ingame.event
 
+import com.mcstarrysky.emotionsimulator.EmotionConfig
+import com.mcstarrysky.emotionsimulator.api.*
 import com.mcstarrysky.emotionsimulator.api.crazy
 import com.mcstarrysky.emotionsimulator.api.emo
 import com.mcstarrysky.emotionsimulator.api.isCrazy
 import com.mcstarrysky.emotionsimulator.api.isEmo
 import com.mcstarrysky.emotionsimulator.prettyInfo
+import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import taboolib.common.platform.event.SubscribeEvent
@@ -51,6 +54,11 @@ object ListenerPlayer {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    fun e(e: PlayerDeathEvent) {
+        e.entity.set(EmotionConfig.config.getDouble("emotion.default"))
     }
 
     /**
