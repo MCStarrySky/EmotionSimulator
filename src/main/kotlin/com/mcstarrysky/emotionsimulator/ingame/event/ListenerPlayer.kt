@@ -20,6 +20,7 @@ import com.mcstarrysky.emotionsimulator.api.crazy
 import com.mcstarrysky.emotionsimulator.api.emo
 import com.mcstarrysky.emotionsimulator.api.isCrazy
 import com.mcstarrysky.emotionsimulator.api.isEmo
+import com.mcstarrysky.emotionsimulator.prettyInfo
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import taboolib.common.platform.event.SubscribeEvent
@@ -40,7 +41,7 @@ object ListenerPlayer {
 
     @SubscribeEvent
     fun e(e: PlayerJoinEvent) {
-        submit(delay = 40L) {
+        submit(delay = 10L) {
             when {
                 e.player.isCrazy() -> {
                     e.player.crazy()
@@ -59,7 +60,7 @@ object ListenerPlayer {
     fun e(e: AsyncPlayerChatEvent) {
         val origin = e.message // 必须保留原消息
         if (e.player.isCrazy()) {
-            // TODO: 日志记录
+            prettyInfo("${e.player.name} 说: $origin")
             e.message = apply(origin)
         }
     }

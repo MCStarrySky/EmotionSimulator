@@ -21,6 +21,8 @@ import com.mcstarrysky.emotionsimulator.api.change
 import org.bukkit.attribute.Attribute
 import taboolib.common.platform.function.submit
 import taboolib.platform.util.onlinePlayers
+import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * EmotionSimulator
@@ -31,17 +33,29 @@ import taboolib.platform.util.onlinePlayers
  */
 object Task {
 
+    private val dataMap = ConcurrentHashMap<UUID, Pair<Int, Int>>()
+
     fun initialize() {
         submit(
             async = true,
             period = 1L
         ) {
             onlinePlayers.forEach {
+                var (healTick, unHealTick) = dataMap.computeIfAbsent(it.uniqueId) { 0 to 0 }
                 if (it.health == (it.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value ?: it.maxHealth) && it.foodLevel == 20) {
-                    it.change(EmotionConfig.config.getDouble("heal.per-tick-add"))
+                    unHealTick = 0
+                    healTick++
+                    if (healTick >= EmotionConfig.config.getInt("heal.time")) {
+                        it.change(EmotionConfig.config.getDouble("heal.per-tick-add"))
+                    }
                 } else {
-                    it.change(EmotionConfig.config.getDouble("un-heal.per-tick-add"))
+                    healTick = 0
+                    unHealTick++
+                    if (unHealTick >= EmotionConfig.config.getInt("un-heal.time")) {
+                        it.change(EmotionConfig.config.getDouble("un-heal.per-tick-add"))
+                    }
                 }
+                dataMap[it.uniqueId] = healTick to unHealTick
             }
         }
     }
