@@ -23,6 +23,8 @@ import com.mcstarrysky.emotionsimulator.api.event.EmotionChangeEvent
 import com.mcstarrysky.emotionsimulator.api.getEmotion
 import com.mcstarrysky.emotionsimulator.api.isCrazy
 import com.mcstarrysky.emotionsimulator.api.isEmo
+import com.mcstarrysky.emotionsimulator.ingame.death.DeathCause
+import com.mcstarrysky.emotionsimulator.ingame.death.DeathMessage
 import com.mcstarrysky.emotionsimulator.prettyInfo
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.platform.util.kill
@@ -47,8 +49,8 @@ object ListenerEmotion {
         when {
             // 抑郁致死
             now + e.delta < min -> {
+                DeathMessage.death[e.player.uniqueId] = DeathCause.EMO
                 e.player.kill()
-                e.player.set(default)
                 e.isCancelled = true
                 e.player.prettyInfo("你抑郁致死!")
             }
@@ -68,8 +70,8 @@ object ListenerEmotion {
             }
             // 狂躁致死
             now + e.delta > max -> {
+                DeathMessage.death[e.player.uniqueId] = DeathCause.CRAZY
                 e.player.kill()
-                e.player.set(default)
                 e.isCancelled = true
                 e.player.prettyInfo("你疯死了!")
             }

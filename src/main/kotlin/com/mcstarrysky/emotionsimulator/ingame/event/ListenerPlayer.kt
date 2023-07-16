@@ -56,6 +56,9 @@ object ListenerPlayer {
         }
     }
 
+    /**
+     * 死亡后新的人生开启, 情绪值归零
+     */
     @SubscribeEvent
     fun e(e: PlayerDeathEvent) {
         e.entity.set(EmotionConfig.config.getDouble("emotion.default"))
