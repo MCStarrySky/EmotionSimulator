@@ -53,6 +53,6 @@ object CommandReload : CommandExecutor {
         get() = ""
 
     init {
-        CommandHandler.sub[CommandDev.name] = this
+        CommandHandler.sub[name] = this
     }
 }

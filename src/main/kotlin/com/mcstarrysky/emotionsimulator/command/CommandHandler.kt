@@ -99,12 +99,12 @@ object CommandHandler {
 
         if (this is CommandBase) {
             incorrectCommand { sender, ctx, _, state ->
-                val name = ctx.self()
-                var usage = sub[ctx.self()]?.usage ?: ""
+                val name = ctx.args().first()
+                var usage = sub[name]?.usage ?: ""
                 if (usage.isNotEmpty()) {
                     usage += " "
                 }
-                val description = sub[ctx.self()]?.description ?: "没有描述"
+                val description = sub[name]?.description ?: "没有描述"
                 when (state) {
                     1 -> {
                         sender.prettyInfo("指令 §f{0} §7参数不足.", name)
@@ -113,10 +113,16 @@ object CommandHandler {
                     }
 
                     2 -> {
-                        val similar = sub.keys.maxByOrNull { Strings.similarDegree(name, it) }!!
-                        sender.prettyInfo("指令 §f{0} §7不存在.", name)
-                        sender.prettyInfo("你可能想要:")
-                        sender.prettyInfo(similar)
+                        if (ctx.args().size > 1) {
+                            sender.prettyInfo("指令 §f{0} §7参数有误.", name)
+                            sender.prettyInfo("正确用法:")
+                            sender.prettyInfo("§f/emotionsimulator {0} {1}§8- §7{2}", name, usage, description)
+                        } else {
+                            val similar = sub.keys.maxByOrNull { Strings.similarDegree(name, it) }!!
+                            sender.prettyInfo("指令 §f{0} §7不存在.", name)
+                            sender.prettyInfo("你可能想要:")
+                            sender.prettyInfo(similar)
+                        }
                     }
                 }
             }
