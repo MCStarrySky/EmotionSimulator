@@ -30,6 +30,7 @@ import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.function.pluginVersion
 import taboolib.common.util.Strings
 import taboolib.module.chat.RawMessage
+import taboolib.module.chat.colored
 import taboolib.module.nms.MinecraftVersion
 import java.util.concurrent.ConcurrentHashMap
 
@@ -60,7 +61,7 @@ object CommandHandler {
         execute<ProxyCommandSender> { sender, context, _ ->
             sender.sendMessage("")
             RawMessage()
-                .append("  ").append("§cEmotionSimulator")
+                .append("  ").append("&{#C7666E}EmotionSimulator".colored())
                 .hoverText("§7StarrySky 情绪模拟")
                 .append(" ").append("§f${pluginVersion}")
                 .hoverText(

@@ -20,6 +20,8 @@ import org.bukkit.command.CommandSender
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.function.console
 import taboolib.common.util.replaceWithOrder
+import taboolib.module.lang.asLangText
+import taboolib.platform.util.asLangText
 
 /**
  * EmotionSimulator
@@ -29,11 +31,11 @@ import taboolib.common.util.replaceWithOrder
  * @since 2023/7/15 12:34
  */
 fun ProxyCommandSender.prettyInfo(message: String, vararg args: Any) {
-    sendMessage("§8[§cEmotionSimulator§8] §7" + message.replaceWithOrder(*args))
+    sendMessage("${asLangText("prefix")} §7" + message.replaceWithOrder(*args))
 }
 
 fun CommandSender.prettyInfo(message: String, vararg args: Any) {
-    sendMessage("§8[§cEmotionSimulator§8] §7" + message.replaceWithOrder(*args))
+    sendMessage("${asLangText("prefix")} §7" + message.replaceWithOrder(*args))
 }
 
 fun prettyInfo(message: String, vararg args: Any) {
