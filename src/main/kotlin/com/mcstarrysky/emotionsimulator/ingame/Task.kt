@@ -21,6 +21,7 @@ import com.mcstarrysky.emotionsimulator.api.change
 import org.bukkit.GameMode
 import org.bukkit.attribute.Attribute
 import taboolib.common.platform.function.submit
+import taboolib.common.util.sync
 import taboolib.platform.util.onlinePlayers
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
@@ -48,13 +49,13 @@ object Task {
                     unHealTick = 0
                     healTick++
                     if (healTick >= EmotionConfig.config.getInt("heal.time")) {
-                        it.change(EmotionConfig.config.getDouble("heal.per-tick-add"))
+                        sync { it.change(EmotionConfig.config.getDouble("heal.per-tick-add")) }
                     }
                 } else {
                     healTick = 0
                     unHealTick++
                     if (unHealTick >= EmotionConfig.config.getInt("un-heal.time")) {
-                        it.change(EmotionConfig.config.getDouble("un-heal.per-tick-add"))
+                        sync { it.change(EmotionConfig.config.getDouble("un-heal.per-tick-add")) }
                     }
                 }
                 dataMap[it.uniqueId] = healTick to unHealTick
