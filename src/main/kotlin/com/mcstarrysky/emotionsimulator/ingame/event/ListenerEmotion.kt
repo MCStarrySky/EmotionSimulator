@@ -46,7 +46,6 @@ object ListenerEmotion {
             return
         }
         val now = e.player.getEmotion()
-        val default = EmotionConfig.config.getDouble("emotion.default")
         val min = EmotionConfig.config.getDouble("emotion.min")
         val max = EmotionConfig.config.getDouble("emotion.max")
         val emo = EmotionConfig.config.getDouble("emotion.emo")
