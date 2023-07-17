@@ -18,6 +18,7 @@ package com.mcstarrysky.emotionsimulator.ingame
 
 import com.mcstarrysky.emotionsimulator.EmotionConfig
 import com.mcstarrysky.emotionsimulator.api.change
+import org.bukkit.GameMode
 import org.bukkit.attribute.Attribute
 import taboolib.common.platform.function.submit
 import taboolib.platform.util.onlinePlayers
@@ -40,7 +41,8 @@ object Task {
             async = true,
             period = 1L
         ) {
-            onlinePlayers.forEach {
+            for (it in onlinePlayers) {
+                if (it.gameMode == GameMode.CREATIVE) continue
                 var (healTick, unHealTick) = dataMap.computeIfAbsent(it.uniqueId) { 0 to 0 }
                 if (it.health == (it.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value ?: it.maxHealth) && it.foodLevel == 20) {
                     unHealTick = 0

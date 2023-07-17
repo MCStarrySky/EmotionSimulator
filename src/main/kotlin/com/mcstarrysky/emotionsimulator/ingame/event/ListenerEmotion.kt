@@ -26,6 +26,7 @@ import com.mcstarrysky.emotionsimulator.api.isEmo
 import com.mcstarrysky.emotionsimulator.ingame.death.DeathCause
 import com.mcstarrysky.emotionsimulator.ingame.death.DeathMessage
 import com.mcstarrysky.emotionsimulator.prettyInfo
+import org.bukkit.GameMode
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.platform.util.kill
 
@@ -40,6 +41,10 @@ object ListenerEmotion {
 
     @SubscribeEvent
     fun e(e: EmotionChangeEvent) {
+        if (e.player.gameMode == GameMode.CREATIVE) {
+            e.isCancelled = true
+            return
+        }
         val now = e.player.getEmotion()
         val default = EmotionConfig.config.getDouble("emotion.default")
         val min = EmotionConfig.config.getDouble("emotion.min")
