@@ -24,6 +24,7 @@ import com.mcstarrysky.emotionsimulator.api.inCd
 import com.mcstarrysky.emotionsimulator.api.isCount
 import org.bukkit.entity.EntityType
 import org.bukkit.event.player.PlayerShearEntityEvent
+import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 
 /**
@@ -35,8 +36,9 @@ import taboolib.common.platform.event.SubscribeEvent
  */
 object ListenerPlayerShear {
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.MONITOR, ignoreCancelled = false)
     fun e(e: PlayerShearEntityEvent) {
+        if (e.isCancelled) return
         if (e.entity.type == EntityType.SHEEP) {
             if (e.player.inCd("sheep")) return
             val emotion = EmotionConfig.config.getString("animal.sheep") ?: return

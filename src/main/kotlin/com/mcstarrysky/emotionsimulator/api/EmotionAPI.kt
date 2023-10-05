@@ -18,10 +18,11 @@ package com.mcstarrysky.emotionsimulator.api
 
 import com.mcstarrysky.emotionsimulator.EmotionConfig
 import com.mcstarrysky.emotionsimulator.api.event.EmotionChangeEvent
+import com.mcstarrysky.emotionsimulator.data.PluginDatabase.get
+import com.mcstarrysky.emotionsimulator.data.PluginDatabase.insert
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
-import taboolib.expansion.getDataContainer
 
 /**
  * EmotionSimulator
@@ -51,9 +52,9 @@ object EmotionAPI {
         }
 
         if (EmotionChangeEvent(player, deltaDouble).call()) {
-            player.getDataContainer()["emotion"] = (player.getDataContainer()["emotion"]?.toDoubleOrNull() ?: EmotionConfig.config.getDouble("emotion.default").also {
-                player.getDataContainer()["emotion"] = it
-            }) + deltaDouble
+            player.insert("emotion",
+                (player.get("emotion")?.toDoubleOrNull() ?: EmotionConfig.config.getDouble("emotion.default")) + deltaDouble
+            )
         }
     }
 
@@ -68,8 +69,8 @@ object EmotionAPI {
      * 获取玩家的情绪值
      */
     fun getEmotion(player: Player): Double {
-        return player.getDataContainer()["emotion"]?.toDoubleOrNull() ?: EmotionConfig.config.getDouble("emotion.default").also {
-            player.getDataContainer()["emotion"] = it
+        return player.get("emotion")?.toDoubleOrNull() ?: EmotionConfig.config.getDouble("emotion.default").also {
+            player.insert("emotion", it)
         }
     }
 
@@ -98,7 +99,7 @@ object EmotionAPI {
      * 使玩家处于抑郁/创伤状态
      */
     fun emo(player: Player) {
-        player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, -1, 1, false, false, true)) // 失明
+        //player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, -1, 1, false, false, true)) // 失明
         player.addPotionEffect(PotionEffect(PotionEffectType.SLOW, -1, 1, false, false, true)) // 缓慢
         player.addPotionEffect(PotionEffect(PotionEffectType.HUNGER, -1, 1, false, false, true)) // 饥饿
         player.addPotionEffect(PotionEffect(PotionEffectType.SLOW_DIGGING, -1, 1, false, false, true)) // 挖掘疲劳

@@ -16,12 +16,13 @@ taboolib {
     install("module-chat")
     install("module-configuration")
     install("module-database")
-    install("module-lang")
     install("module-nms")
     install("platform-bukkit")
-    install("expansion-player-database")
     classifier = null
-    version = "6.0.11-24"
+    version = "6.0.12-26"
+
+    options("keep-kotlin-module")
+    relocate("com.mcstarrysky.starrysky", "com.mcstarrysky.emotionsimulator.taboolib.starrysky")
 }
 
 repositories {
@@ -32,6 +33,7 @@ dependencies {
     compileOnly("ink.ptms:nms-all:1.0.0")
     compileOnly("ink.ptms.core:v11902:11902-minimize:mapped")
     compileOnly("ink.ptms.core:v11902:11902-minimize:universal")
+    taboo("com.mcstarrysky.taboolib:module-starrysky:1.0.13-3")
     compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))
 }

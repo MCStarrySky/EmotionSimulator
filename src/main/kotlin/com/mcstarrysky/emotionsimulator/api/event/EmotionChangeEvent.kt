@@ -26,4 +26,4 @@ import taboolib.platform.type.BukkitProxyEvent
  * @author Mical
  * @since 2023/7/15 12:44
  */
-class EmotionChangeEvent(val player: Player, val delta: Double) : BukkitProxyEvent()
+class EmotionChangeEvent(val player: Player, var delta: Double) : BukkitProxyEvent()

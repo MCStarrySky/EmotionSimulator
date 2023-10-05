@@ -14,45 +14,32 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.mcstarrysky.emotionsimulator.command.sub
+package com.mcstarrysky.emotionsimulator.command.impl
 
 import com.mcstarrysky.emotionsimulator.EmotionConfig
-import com.mcstarrysky.emotionsimulator.command.CommandExecutor
-import com.mcstarrysky.emotionsimulator.command.CommandHandler
-import com.mcstarrysky.emotionsimulator.prettyInfo
-import taboolib.common.platform.ProxyCommandSender
+import com.mcstarrysky.emotionsimulator.command.EmotionCommand
+import com.mcstarrysky.starrysky.command.CommandExecutor
+import com.mcstarrysky.starrysky.command.executeAsCommandSender
+import com.mcstarrysky.starrysky.i18n.I18n
+import com.mcstarrysky.starrysky.i18n.sendLang
 import taboolib.common.platform.command.SimpleCommandBody
 import taboolib.common.platform.command.subCommand
-import taboolib.module.lang.Language
 
-/**
- * EmotionSimulator
- * com.mcstarrysky.emotionsimulator.command.sub.CommandReload
- *
- * @author Mical
- * @since 2023/7/16 15:19
- */
 object CommandReload : CommandExecutor {
 
     override val command: SimpleCommandBody
         get() = subCommand {
-            execute<ProxyCommandSender> { sender, _, _ ->
-                Language.reload()
+            executeAsCommandSender { sender, _, _ ->
+                I18n.reload()
                 EmotionConfig.config.reload()
-                sender.prettyInfo("插件已成功重载.")
+                sender.sendLang("command.subCommands.reload.success")
             }
         }
 
     override val name: String
         get() = "reload"
 
-    override val description: String
-        get() = "重载插件"
-
-    override val usage: String
-        get() = ""
-
     init {
-        CommandHandler.sub[name] = this
+        EmotionCommand.sub[name] = this
     }
 }

@@ -1,0 +1,52 @@
+prefix: '&8\[&{#C7666E}情绪&8\] &{#C7666E}'
+command:
+  helper:
+    - ' '
+    - '  [&{#C7666E}EmotionSimulator](h=&7StarrySky 情绪系统) &f[{pluginVersion}](h=&7插件版本: &2{pluginVersion}\n&7游戏版本: &b{minecraftVersion})'
+    - ' '
+    - '  &7命令: [&f/es &8\[...\]](h=&f/es &8\[...\];suggest=/es )'
+    - '  &7参数:'
+    - '{subCommands}'
+    - ' '
+  sub:
+    - '    &8- [&f{name}](h=/es {name} {usage}&8- &7{description};suggest=/es {name})'
+    - '      &7{description}'
+  no-description: '没有描述'
+  no-usage: ''
+  argument-missing:
+    - '&8\[&{#C7666E}情绪&8\] &7指令 &f{name} &7参数不足.'
+    - '&8\[&{#C7666E}情绪&8\] &7正确用法:'
+    - '&8\[&{#C7666E}情绪&8\] &f/es {name} {usage}&8- &7{description}'
+  argument-wrong:
+    - '&8\[&{#C7666E}情绪&8\] &7指令 &f{name} &7参数有误.'
+    - '&8\[&{#C7666E}情绪&8\] &7正确用法:'
+    - '&8\[&{#C7666E}情绪&8\] &f/es {name} {usage}&8- &7{description}'
+  argument-unknown:
+    - '&8\[&{#C7666E}情绪&8\] &7指令 &f{name} &7不存在.'
+    - '&8\[&{#C7666E}情绪&8\] &7你可能想要:'
+    - '&8\[&{#C7666E}情绪&8\] &f{similar}'
+  incorrect-sender: '&8\[&{#C7666E}情绪&8\] &7指令 &f{name} &7只能由 &f玩家 &7执行'
+  subCommands:
+    add:
+      description: '增加情绪值'
+      usage: '&7\[&8玩家&7\] &7\[&8数值&7\]'
+      success: '已成功调整到玩家的情绪值为 {now}, 调整之前的情绪值为 {before}'
+    take:
+      description: '减少情绪值'
+      usage: '&7\[&8玩家&7\] &7\[&8数值&7\]'
+      success: '已成功调整到玩家的情绪值为 {now}, 调整之前的情绪值为 {before}'
+    set:
+      description: '设置情绪值'
+      usage: '&7\[&8玩家&7\] &7\[&8数值&7\]'
+      success: '已成功调整到玩家的情绪值为 {now}, 调整之前的情绪值为 {before}'
+    reload:
+      description: '重载插件'
+      usage: ''
+      success: '插件已经重载完毕'
+
+state-emo: "抑郁"
+state-normal: "正常"
+state-crazy: "狂躁"
+
+death-emo: "{name}死于抑郁" # 这两条死亡信息不会带前缀
+death-crazy: "{name}死于狂躁"

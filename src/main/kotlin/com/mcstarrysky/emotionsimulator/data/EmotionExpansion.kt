@@ -20,9 +20,9 @@ import com.mcstarrysky.emotionsimulator.api.getEmotion
 import com.mcstarrysky.emotionsimulator.api.isCrazy
 import com.mcstarrysky.emotionsimulator.api.isEmo
 import com.mcstarrysky.emotionsimulator.api.isNormal
+import com.mcstarrysky.starrysky.i18n.asLangTextString
 import org.bukkit.entity.Player
 import taboolib.platform.compat.PlaceholderExpansion
-import taboolib.platform.util.asLangText
 
 /**
  * EmotionSimulator
@@ -44,7 +44,7 @@ object EmotionExpansion : PlaceholderExpansion {
                     player?.isCrazy() == true -> "crazy"
                     else -> return ""
                 }
-                player.asLangText("state-$state")
+                player.asLangTextString("state-$state")
             }
             "value" -> (player?.getEmotion() ?: -1.0).toString()
             else -> ""

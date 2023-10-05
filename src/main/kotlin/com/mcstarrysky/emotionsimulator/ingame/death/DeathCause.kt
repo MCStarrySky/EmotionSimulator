@@ -16,8 +16,8 @@
  */
 package com.mcstarrysky.emotionsimulator.ingame.death
 
+import com.mcstarrysky.starrysky.i18n.asLangTextString
 import org.bukkit.entity.Player
-import taboolib.platform.util.asLangText
 
 /**
  * EmotionSimulator
@@ -30,5 +30,5 @@ enum class DeathCause {
 
     EMO, CRAZY;
 
-    fun getMessage(player: Player): String = player.asLangText("death-${this.name.lowercase()}", player.name)
+    fun getMessage(player: Player): String = player.asLangTextString("death-${this.name.lowercase()}", "name" to player.name)
 }

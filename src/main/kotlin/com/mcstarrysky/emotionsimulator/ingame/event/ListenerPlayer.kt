@@ -16,18 +16,14 @@
  */
 package com.mcstarrysky.emotionsimulator.ingame.event
 
-import com.mcstarrysky.emotionsimulator.EmotionConfig
-import com.mcstarrysky.emotionsimulator.api.*
 import com.mcstarrysky.emotionsimulator.api.crazy
 import com.mcstarrysky.emotionsimulator.api.emo
 import com.mcstarrysky.emotionsimulator.api.isCrazy
 import com.mcstarrysky.emotionsimulator.api.isEmo
-import com.mcstarrysky.emotionsimulator.prettyInfo
-import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.common.platform.function.submit
+import taboolib.common.platform.function.info
 import java.nio.CharBuffer
 import java.security.SecureRandom
 
@@ -44,24 +40,14 @@ object ListenerPlayer {
 
     @SubscribeEvent
     fun e(e: PlayerJoinEvent) {
-        submit(delay = 10L) {
-            when {
-                e.player.isCrazy() -> {
-                    e.player.crazy()
-                }
-                e.player.isEmo() -> {
-                    e.player.emo()
-                }
+        when {
+            e.player.isCrazy() -> {
+                e.player.crazy()
+            }
+            e.player.isEmo() -> {
+                e.player.emo()
             }
         }
-    }
-
-    /**
-     * 死亡后新的人生开启, 情绪值归零
-     */
-    @SubscribeEvent
-    fun e(e: PlayerDeathEvent) {
-        e.entity.set(EmotionConfig.config.getDouble("emotion.default"))
     }
 
     /**
@@ -71,7 +57,7 @@ object ListenerPlayer {
     fun e(e: AsyncPlayerChatEvent) {
         val origin = e.message // 必须保留原消息
         if (e.player.isCrazy()) {
-            prettyInfo("${e.player.name} 说: $origin")
+            info("(情绪) ${e.player.name} 说: $origin")
             e.message = apply(origin)
         }
     }

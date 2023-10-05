@@ -25,6 +25,7 @@ import com.mcstarrysky.emotionsimulator.api.setCd
 import org.bukkit.Material
 import org.bukkit.block.data.Ageable
 import org.bukkit.event.block.BlockBreakEvent
+import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 
 /**
@@ -36,9 +37,9 @@ import taboolib.common.platform.event.SubscribeEvent
  */
 object ListenerBlockBreak {
 
-    // FIXME: 代码过于傻逼, 令人窒息
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.MONITOR, ignoreCancelled = false)
     fun e(e: BlockBreakEvent) {
+        if (e.isCancelled) return
         var type: String? = ""
         var blockEmotion: String? = ""
         when (e.block.type) {

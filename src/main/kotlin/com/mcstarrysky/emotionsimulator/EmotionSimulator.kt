@@ -16,15 +16,12 @@
  */
 package com.mcstarrysky.emotionsimulator
 
-import com.mcstarrysky.emotionsimulator.data.PluginDatabase
 import com.mcstarrysky.emotionsimulator.ingame.Task
-import taboolib.common.platform.Plugin
+import com.mcstarrysky.starrysky.AbstractPlugin
 
-object EmotionSimulator : Plugin() {
+object EmotionSimulator : AbstractPlugin() {
 
-    override fun onEnable() {
-        PluginDatabase.initialize()
+    override fun load() {
         Task.initialize()
-        prettyInfo("已成功加载插件.")
     }
 }

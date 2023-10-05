@@ -42,23 +42,25 @@ object Task {
             async = true,
             period = 1L
         ) {
-            for (it in onlinePlayers) {
-                if (it.gameMode == GameMode.CREATIVE) continue
-                var (healTick, unHealTick) = dataMap.computeIfAbsent(it.uniqueId) { 0 to 0 }
-                if (it.health == (it.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value ?: it.maxHealth) && it.foodLevel == 20) {
-                    unHealTick = 0
-                    healTick++
-                    if (healTick >= EmotionConfig.config.getInt("heal.time")) {
-                        sync { it.change(EmotionConfig.config.getDouble("heal.per-tick-add")) }
+            runCatching {
+                for (it in onlinePlayers) {
+                    if (it.gameMode == GameMode.CREATIVE) continue
+                    var (healTick, unHealTick) = dataMap.computeIfAbsent(it.uniqueId) { 0 to 0 }
+                    if (it.health == (it.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value ?: it.maxHealth) && it.foodLevel == 20) {
+                        unHealTick = 0
+                        healTick++
+                        if (healTick >= EmotionConfig.config.getInt("heal.time")) {
+                            sync { it.change(EmotionConfig.config.getDouble("heal.per-tick-add")) }
+                        }
+                    } else {
+                        healTick = 0
+                        unHealTick++
+                        if (unHealTick >= EmotionConfig.config.getInt("un-heal.time")) {
+                            sync { it.change(EmotionConfig.config.getDouble("un-heal.per-tick-add")) }
+                        }
                     }
-                } else {
-                    healTick = 0
-                    unHealTick++
-                    if (unHealTick >= EmotionConfig.config.getInt("un-heal.time")) {
-                        sync { it.change(EmotionConfig.config.getDouble("un-heal.per-tick-add")) }
-                    }
+                    dataMap[it.uniqueId] = healTick to unHealTick
                 }
-                dataMap[it.uniqueId] = healTick to unHealTick
             }
         }
     }

@@ -25,10 +25,11 @@ import com.mcstarrysky.emotionsimulator.api.isCrazy
 import com.mcstarrysky.emotionsimulator.api.isEmo
 import com.mcstarrysky.emotionsimulator.ingame.death.DeathCause
 import com.mcstarrysky.emotionsimulator.ingame.death.DeathMessage
-import com.mcstarrysky.emotionsimulator.prettyInfo
 import org.bukkit.GameMode
+import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.platform.util.kill
+import taboolib.platform.util.title
 
 /**
  * EmotionSimulator
@@ -39,7 +40,7 @@ import taboolib.platform.util.kill
  */
 object ListenerEmotion {
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.MONITOR, ignoreCancelled = true)
     fun e(e: EmotionChangeEvent) {
         if (e.player.gameMode == GameMode.CREATIVE) {
             e.isCancelled = true
@@ -56,20 +57,22 @@ object ListenerEmotion {
                 DeathMessage.death[e.player.uniqueId] = DeathCause.EMO
                 e.player.kill()
                 e.isCancelled = true
-                e.player.prettyInfo("你抑郁致死!")
+            //    e.player.prettyInfo("你抑郁致死!")
+                e.player.set(emo + 1.0)
             }
             // 进入抑郁/创伤状态
             now + e.delta < emo -> {
                 if (!e.player.isEmo()) {
                     e.player.emo()
-                    e.player.prettyInfo("你抑郁了!")
+                //    e.player.prettyInfo("你抑郁了!")
+                    e.player.title("§c你抑郁了!", "§7请尽快平稳情绪")
                 }
             }
             // 恢复到正常时
             now + e.delta in emo..crazy  -> {
                 if (!e.player.isNormal()) {
                     e.player.normal()
-                    e.player.prettyInfo("你恢复正常!")
+                 //   e.player.prettyInfo("你恢复正常!")
                 }
             }
             // 狂躁致死
@@ -77,13 +80,15 @@ object ListenerEmotion {
                 DeathMessage.death[e.player.uniqueId] = DeathCause.CRAZY
                 e.player.kill()
                 e.isCancelled = true
-                e.player.prettyInfo("你疯死了!")
+               // e.player.prettyInfo("你疯死了!")
+                e.player.set(crazy - 1.0)
             }
             // 进入狂躁/疯癫状态
             now + e.delta > crazy -> {
                 if (!e.player.isCrazy()) {
                     e.player.crazy()
-                    e.player.prettyInfo("你疯了!")
+                    e.player.title("§c你很狂躁!", "§7请尽快平稳情绪")
+                //    e.player.prettyInfo("你疯了!")
                 }
             }
         }

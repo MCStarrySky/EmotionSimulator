@@ -25,6 +25,7 @@ import com.mcstarrysky.emotionsimulator.api.isCount
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.event.player.PlayerInteractEntityEvent
+import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 
 /**
@@ -36,8 +37,9 @@ import taboolib.common.platform.event.SubscribeEvent
  */
 object ListenerPlayerInteract {
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.MONITOR, ignoreCancelled = false)
     fun e(e: PlayerInteractEntityEvent) {
+        if (e.isCancelled) return
         if (e.rightClicked.type == EntityType.COW && e.player.itemInUse?.type == Material.BUCKET) {
             if (e.player.inCd("milk")) return
             val emotion = EmotionConfig.config.getString("animal.milk") ?: return

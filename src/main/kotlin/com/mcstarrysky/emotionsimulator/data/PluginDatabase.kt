@@ -17,13 +17,11 @@
 package com.mcstarrysky.emotionsimulator.data
 
 import com.mcstarrysky.emotionsimulator.EmotionConfig
-import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerQuitEvent
-import taboolib.common.platform.event.SubscribeEvent
-import taboolib.expansion.releaseDataContainer
-import taboolib.expansion.setupDataContainer
-import taboolib.expansion.setupPlayerDatabase
-import taboolib.platform.util.onlinePlayers
+import org.bukkit.entity.Player
+import taboolib.module.database.ColumnOptionSQL
+import taboolib.module.database.ColumnTypeSQL
+import taboolib.module.database.HostSQL
+import taboolib.module.database.Table
 
 /**
  * EmotionSimulator
@@ -34,18 +32,57 @@ import taboolib.platform.util.onlinePlayers
  */
 object PluginDatabase {
 
-    fun initialize() {
-        setupPlayerDatabase(EmotionConfig.database)
-        onlinePlayers.forEach { it.setupDataContainer() }
+    private val host = HostSQL(EmotionConfig.database)
+
+    private val table = Table("emotionsimulator", host) {
+        add("user") {
+            type(ColumnTypeSQL.VARCHAR, 36) {
+                options(ColumnOptionSQL.KEY)
+            }
+        }
+        add("key") {
+            type(ColumnTypeSQL.VARCHAR, 64) {
+                options(ColumnOptionSQL.KEY)
+            }
+        }
+        add("value") {
+            type(ColumnTypeSQL.VARCHAR, 128)
+        }
     }
 
-    @SubscribeEvent
-    fun e(e: PlayerJoinEvent) {
-        e.player.setupDataContainer()
+    private val dataSource = host.createDataSource()
+
+    init {
+        table.workspace(dataSource) { createTable(true) }.run()
     }
 
-    @SubscribeEvent
-    fun e(e: PlayerQuitEvent) {
-        e.player.releaseDataContainer()
+    fun Player.insert(key: String, value: Any) {
+        if (table.find(dataSource) {
+            where {
+                "user" eq uniqueId.toString()
+                "key" eq key
+            }
+            }) {
+            table.update(dataSource) {
+                set("value", value.toString())
+                where {
+                    "user" eq uniqueId.toString()
+                    "key" eq key
+                }
+            }
+        } else {
+            table.insert(dataSource, "user", "key", "value") {
+                value(uniqueId.toString(), key, value.toString())
+            }
+        }
+    }
+
+    fun Player.get(key: String): String? {
+        return table.select(dataSource) {
+            where {
+                "user" eq uniqueId.toString()
+                "key" eq key
+            }
+        }.firstOrNull { getString("value") }
     }
 }

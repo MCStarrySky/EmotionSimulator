@@ -16,8 +16,9 @@
  */
 package com.mcstarrysky.emotionsimulator.api
 
+import com.mcstarrysky.emotionsimulator.data.PluginDatabase.get
+import com.mcstarrysky.emotionsimulator.data.PluginDatabase.insert
 import org.bukkit.entity.Player
-import taboolib.expansion.getDataContainer
 
 /**
  * EmotionSimulator
@@ -32,7 +33,7 @@ object CooldownAPI {
      * 获取已经触发的次数
      */
     fun getCount(player: Player, type: String): Int {
-        return player.getDataContainer()[type]?.toIntOrNull() ?: (0).also { resetCount(player, type) }
+        return player.get(type)?.toIntOrNull() ?: (0).also { resetCount(player, type) }
     }
 
     /**
@@ -46,21 +47,21 @@ object CooldownAPI {
      * 增加触发次数
      */
     fun addCount(player: Player, type: String) {
-        player.getDataContainer()[type] = getCount(player, type) + 1
+        player.insert(type, getCount(player, type) + 1)
     }
 
     /**
      * 重置触发次数
      */
     fun resetCount(player: Player, type: String) {
-        player.getDataContainer()[type] = 0
+        player.insert(type, 0)
     }
 
     /**
      * 获取冷却
      */
     fun getCd(player: Player, type: String): Long {
-        return player.getDataContainer()["${type}Cd"]?.toLongOrNull() ?: (0L).also { player.getDataContainer()["${type}Cd"] = 0L }
+        return player.get("${type}Cd")?.toLongOrNull() ?: (0L).also { player.insert("${type}Cd", 0L) }
     }
 
     /**
@@ -74,7 +75,7 @@ object CooldownAPI {
      * 设置冷却
      */
     fun setCd(player: Player, type: String, seconds: Int) {
-        player.getDataContainer()["${type}Cd"] = System.currentTimeMillis() + seconds * 1000L
+        player.insert("${type}Cd", System.currentTimeMillis() + seconds * 1000L)
     }
 }
 
