@@ -5,6 +5,7 @@ database: # 数据库配置
   password: password
   database: minecraft
   table: emotionsimulator
+bStats: true
 emotion: # 情绪值基本配置
   default: 5000 # 默认一段人生开启时所拥有情绪值
   min: 0 # 最小情绪值, 低于这个会抑郁致死

@@ -23,5 +23,6 @@ object EmotionSimulator : AbstractPlugin() {
 
     override fun load() {
         Task.initialize()
+        registerBStats(19976)
     }
 }
